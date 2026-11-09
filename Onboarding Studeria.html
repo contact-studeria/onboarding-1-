@@ -1,0 +1,291 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Onboarding Studeria</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : dashboard Studeria. Onglet Onboarding (tous les dossiers, priorisés par échéance) + espace Formateurs (onboarding des formules Dirigeant, délégué). */
+:root{
+  --nav:#0e0a2b; --nav-fg:#c9c4ea; --nav-active:#241d55;
+  --hero-a:#0e0a2b; --hero-b:#4a1294; --pink:#e47cf2; --pink-fg:#2a0a40;
+  --bg:#ffffff; --surface:#ffffff; --soft:#f6f5fb; --fg:#120f33; --muted:#6b6889; --line:#e9e7f3;
+  --violet:#7c3aed; --violet-soft:#f1eafe;
+  --green:#16a34a; --green-soft:#e8f8ee; --orange:#ea6a0c; --orange-soft:#fff1e6; --rose:#db2777; --rose-soft:#fde8f2; --blue:#2563eb; --blue-soft:#e8effd; --red:#dc2626; --red-soft:#fdecec;
+  --shadow:0 20px 60px rgba(14,10,43,.25);
+  --font:"Outfit","Gilroy","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b0822; --surface:#141034; --soft:#1b1642; --fg:#eeecfb; --muted:#a29fc4; --line:#2a2558;
+  --violet:#b48cff; --violet-soft:#2a1f5c; --green:#4ade80; --green-soft:#12321f; --orange:#fb923c; --orange-soft:#3a2312;
+  --rose:#f472b6; --rose-soft:#3b1630; --blue:#7aa2ff; --blue-soft:#18264d; --red:#f87171; --red-soft:#3a1717; --shadow:0 20px 60px rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0822; --surface:#141034; --soft:#1b1642; --fg:#eeecfb; --muted:#a29fc4; --line:#2a2558;
+  --violet:#b48cff; --violet-soft:#2a1f5c; --green:#4ade80; --green-soft:#12321f; --orange:#fb923c; --orange-soft:#3a2312;
+  --rose:#f472b6; --rose-soft:#3b1630; --blue:#7aa2ff; --blue-soft:#18264d; --red:#f87171; --red-soft:#3a1717; --shadow:0 20px 60px rgba(0,0,0,.6); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.45}
+h1,h2,h3{margin:0;line-height:1.2}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+
+.topbar{background:var(--nav);color:var(--nav-fg);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px;display:flex;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:18px;white-space:nowrap}
+.logo svg{width:26px;height:26px}
+.nav{display:flex;gap:4px;font-size:15px;overflow-x:auto}
+.nav button{padding:8px 12px;border-radius:8px;white-space:nowrap;border:0;background:transparent;color:var(--nav-fg);cursor:default}
+.nav button.link{cursor:pointer}
+.nav .on{background:var(--nav-active);color:#fff}
+.avatar{margin-left:auto;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--nav);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+
+.shell{display:grid;grid-template-columns:96px 1fr}
+.rail{background:var(--nav);color:var(--nav-fg);display:flex;flex-direction:column;align-items:center;gap:10px;padding-block:18px;font-size:13px;min-height:calc(100vh - 60px)}
+.rail button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;border-radius:10px;width:80px;text-align:center;border:0;background:transparent;color:var(--nav-fg);cursor:pointer;font-size:13px}
+.rail button.on{background:var(--nav-active);color:#fff}
+.rail button:disabled{cursor:default;opacity:.7}
+.rail svg{width:22px;height:22px}
+main{min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px;display:flex;flex-direction:column;gap:20px}
+
+.hero{background:linear-gradient(110deg,var(--hero-a) 55%,var(--hero-b));color:#fff;border-radius:16px;padding:24px 30px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.hero h1{font-size:26px;font-weight:700}
+.hero p{color:#cfcaf0;margin-top:4px}
+.btn-pink{background:var(--pink);color:var(--pink-fg);font-weight:600;padding:9px 18px;border-radius:8px;border:0;cursor:pointer;white-space:nowrap}
+
+.counters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.counter{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;cursor:pointer;text-align:left}
+.counter b{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--c,var(--fg))}
+.counter span{font-size:13px;color:var(--muted)}
+.counter.on{border-color:var(--violet);box-shadow:inset 0 0 0 1px var(--violet)}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);min-width:0}
+.field input{border:0;outline:0;background:transparent;width:200px;max-width:100%}
+select{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--surface)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:8px 14px;cursor:pointer}
+.seg button.on{background:var(--violet-soft);color:var(--violet);font-weight:600}
+.push{margin-left:auto}
+.total{color:var(--muted);font-size:14px}
+
+/* Liste priorisée */
+.group{display:flex;flex-direction:column;gap:8px}
+.group h2{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.group h2 i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.group h2 small{font-weight:400;color:var(--muted);font-size:13px}
+.rows{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.row{display:grid;grid-template-columns:minmax(150px,1.4fr) 130px minmax(150px,1fr) minmax(200px,1.6fr) 110px 120px;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;width:100%;text-align:left;background:transparent;border-left:0;border-right:0;border-top:0}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--soft)}
+.row b{font-weight:600}
+.row small{display:block;color:var(--muted);font-size:12px}
+.next{font-size:14px}
+.due{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.owner{font-size:12px;color:var(--muted)}
+.rowswrap{overflow-x:auto}
+.rowswrap .rows{min-width:900px}
+.empty{font-size:13px;color:var(--muted);padding:14px 16px}
+
+.board{display:grid;grid-template-columns:repeat(6,minmax(210px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px}
+.lane{background:var(--soft);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:180px}
+.lane-h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.lane-h .n{margin-left:auto;font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.lane-h i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;text-align:left;width:100%}
+.card:hover{border-color:var(--violet)}
+.card .co{font-weight:600}
+.card .sub{font-size:13px;color:var(--muted)}
+
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.t-green{background:var(--green-soft);color:var(--green)}
+.t-violet{background:var(--violet-soft);color:var(--violet)}
+.t-pink{background:var(--rose-soft);color:var(--rose)}
+.dot{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:14px}
+.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.deleg{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--soft);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.valid-box{border:1px solid var(--rose);background:var(--rose-soft);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.valid-box h2{font-size:16px;font-weight:600}.valid-box h2 small{color:var(--muted);font-weight:400}
+.vrow{display:grid;grid-template-columns:minmax(140px,1fr) minmax(180px,2fr) auto;gap:14px;align-items:center;background:var(--surface);border-radius:10px;padding:12px 14px}
+.vrow small{display:block;color:var(--muted);font-size:12px}
+.vbtns{display:flex;gap:8px;flex-wrap:wrap}
+.vcard{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+@media (max-width:640px){.vrow{grid-template-columns:1fr}}
+.banner{background:var(--violet-soft);color:var(--fg);border-radius:12px;padding:12px 16px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.banner button{border:0;background:transparent;color:var(--violet);font-weight:600;cursor:pointer;padding:0;text-decoration:underline}
+
+.overlay{position:fixed;inset:0;background:rgba(14,10,43,.45);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface);z-index:21;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);padding-right:env(safe-area-inset-right,0px)}
+.d-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.d-head h2{font-size:20px}
+.close{margin-left:auto;border:1px solid var(--line);background:var(--surface);border-radius:8px;width:34px;height:34px;cursor:pointer;flex:none}
+.d-body{padding:18px 22px;overflow-y:auto;display:flex;flex-direction:column;gap:18px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;font-size:14px;margin:0}
+.facts dt{color:var(--muted);font-size:12px}
+.facts dd{margin:0;font-weight:500}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.steps li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:10px;border:1px solid var(--line)}
+.steps .mk{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;border:2px solid var(--line);color:var(--muted)}
+.steps li.done .mk{background:var(--green);border-color:var(--green);color:#fff}
+.steps li.cur{border-color:var(--violet);background:var(--violet-soft)}
+.steps li.cur .mk{border-color:var(--violet);color:var(--violet)}
+.steps .t{font-weight:600;font-size:14px}
+.steps .d{font-size:13px;color:var(--muted)}
+.todo{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.todo label{display:flex;gap:8px;align-items:flex-start}
+.todo input{margin-top:3px;accent-color:var(--violet)}
+.tpl{background:var(--soft);border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap}
+.d-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;padding-bottom:max(14px,env(safe-area-inset-bottom,0px))}
+.btn-ghost{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:9px 16px;cursor:pointer}
+button:disabled{opacity:.45;cursor:default}
+h3.lbl{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.note{font-size:12px;color:var(--muted)}
+button:focus-visible,select:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+@media (max-width:900px){.counters{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.shell{grid-template-columns:1fr}.rail{flex-direction:row;min-height:0;justify-content:center;padding-block:8px}.nav{display:none}.hero{padding:20px}.push{margin-left:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="topbar">
+  <div class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c5 0 7 4 7 7s-3 5-7 5-7 2-7 5 2 7 7 7" fill="none" stroke="#b48cff" stroke-width="3" stroke-linecap="round"/><path d="M16 28c-5 0-7-4-7-7" fill="none" stroke="#e47cf2" stroke-width="3" stroke-linecap="round"/></svg>studeria</div>
+  <nav class="nav" aria-label="Navigation (maquette)"><button type="button" tabindex="-1">Overview</button><button type="button" tabindex="-1">Pipeline</button><button type="button" tabindex="-1">Projets</button><button type="button" tabindex="-1">Calendrier</button><button type="button" tabindex="-1">Clients</button><button type="button" tabindex="-1">Paramètres</button></nav>
+  <span class="avatar" aria-hidden="true">OP</span>
+</div>
+
+<div class="shell">
+  <aside class="rail" aria-label="Espaces">
+    <button type="button" id="railPil" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Pilotage</button>
+     <button type="button" id="railForm" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>Formateurs</button>
+    <button type="button" class="on" id="railOnb" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h11"/><path d="M11 6l6 6-6 6"/><path d="M20 4v16"/></svg>Onboarding</button>
+    <button type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6a7 7 0 1 0 0 12"/><path d="M4 10h10M4 14h10"/></svg>Finances</button>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <div><h1 id="hTitle">Onboarding</h1><p id="hSub"></p></div>
+      <button class="btn-pink" type="button" id="newBtn">+ Nouveau dossier</button>
+    </div>
+    <div id="banner"></div>
+    <div class="counters" id="counters" role="group" aria-label="Résumé"></div>
+    <div class="toolbar">
+      <label class="field"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Rechercher un client…" aria-label="Rechercher un client"></label>
+      <select id="offre" aria-label="Filtrer par offre"><option value="">Toutes offres</option><option>Formation</option><option>Transformation</option><option>Dirigeant</option></select>
+      <select id="sales" aria-label="Filtrer par commercial"><option value="">Tous les commerciaux</option><option>Commercial A</option><option>Commercial B</option><option>Commercial C</option></select>
+      <div class="seg" role="group" aria-label="Vue par équipe" id="scopeSeg"><button type="button" class="on" data-s="ops">Opérations (Victor)</button><button type="button" data-s="sales">Sales</button><button type="button" data-s="form">Dirigeants</button><button type="button" data-s="all">Tous</button></div>
+      <span class="total" id="total"></span>
+      <div class="seg push" role="group" aria-label="Vue"><button type="button" id="vList" class="on">Par échéance</button><button type="button" id="vKanban">Par phase</button></div>
+    </div>
+    <div id="view"></div>
+    <p class="note">Maquette avec des données fictives. Aujourd'hui = lundi 9 novembre. Cliquez sur un dossier pour ouvrir sa fiche.</p>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-modal="true" role="dialog" aria-labelledby="dTitle">
+  <div class="d-head"><div><h2 id="dTitle"></h2><p class="note" id="dSub"></p></div><button class="close" type="button" id="dClose" aria-label="Fermer">✕</button></div>
+  <div class="d-body" id="dBody"></div>
+  <div class="d-foot"><button class="btn-ghost" type="button" id="dBack">Étape précédente</button><button class="btn-pink" type="button" id="dNext">Passer à l'étape suivante</button></div>
+</aside>
+
+<script>
+var PHASES=[
+ {k:'Signé',c:'var(--blue)',d:'Contrat signé, financement vérifié par les sales.',next:'Récupérer la fiche de passation des sales',todo:['Convention ou devis signé','Financement vérifié'],extra:{Formation:['Dossier OPCO déposé','Accord de prise en charge reçu'],Dirigeant:['Inscription CPF validée (si CPF)']}},
+ {k:'Passation',c:'var(--violet)',d:'Les sales transmettent la fiche client.',next:'Vérifier la fiche et compléter le profil',todo:['Coordonnées complètes','Entreprise et secteur','Besoins exprimés au RDV','Lien Leexi du RDV de vente']},
+ {k:'Prise de contact',c:'var(--orange)',d:'Mail de prise de contact et appel découverte de 15 min.',next:'Envoyer le mail et caler l\'appel découverte',todo:['Mail de prise de contact envoyé','Appel découverte fait','Format validé'],tpl:"Bonjour [Prénom],\n\nSuite à votre échange avec l'équipe Studeria, je reviens vers vous pour organiser le démarrage de votre accompagnement.\n\nJe vous propose un premier échange de 15 minutes le [date], entre [heure] et [heure].\n\nBien à vous,\n[Signature]"},
+ {k:'Matching intervenant',c:'var(--rose)',d:'Choix du formateur ou du consultant, confirmation, présentation au client.',next:'Confirmer l\'intervenant et le présenter au client',todo:['Intervenant choisi (et un remplaçant)','Disponibilité confirmée','Mail de présentation envoyé'],extra:{Transformation:['Chef de projet désigné'],Dirigeant:['Formateur validé par le responsable']},tpl:"Bonjour [Prénom],\n\nJe vous présente [Intervenant], qui vous accompagnera tout au long de votre parcours. [Intervenant], en copie, va vous proposer des créneaux pour la première séance.\n\nBien à vous,\n[Signature]"},
+ {k:'Lancement',c:'var(--green)',d:'Première séance ou réunion de cadrage.',next:'Fixer le RDV de lancement',todo:['RDV de lancement fixé','Planning partagé'],extra:{Formation:['Dates des sessions validées','Feuilles d\'émargement prêtes'],Transformation:['Atelier de cadrage planifié','Cas d\'usage priorisés']}},
+ {k:'En cours',c:'var(--muted)',d:'Accompagnement en cours, point à mi-parcours puis bilan.',next:'Point de suivi à mi-parcours',todo:['Point à mi-parcours','Bilan de fin']}
+];
+var DATA=[
+ {co:'Cabinet Ferrand',sect:'Expertise comptable',offre:'Formation',h:35,p:0,due:-2},
+ {co:'Domaine du Pic',sect:'Viticulture',offre:'Formation',h:21,p:2,due:-1,alert:'Sans réponse depuis 6 j'},
+ {co:'Brokr Assurances',sect:'Assurance',offre:'Formation',h:60,p:3,due:0},
+ {co:'Nova Immo',sect:'Immobilier',offre:'Transformation',h:40,p:1,due:0},
+ {co:'Studio Lin',sect:'Communication',offre:'Transformation',h:35,p:4,due:2},
+ {co:'Bâti Sud',sect:'BTP',offre:'Formation',h:14,p:2,due:3},
+ {co:'Groupe Hélios',sect:'Industrie',offre:'Transformation',h:80,p:0,due:9},
+ {co:'Atelier Morin',sect:'Conseil',offre:'Dirigeant',h:14,p:2,due:-1,alert:'Email manquant'},
+ {co:'Recrut&Co',sect:'Recrutement',offre:'Dirigeant',h:14,p:3,due:1,prop:'Formateur B',why:'Expert n8n et agents IA, adapté à un cabinet qui veut automatiser son recrutement.'},
+ {co:'Les Petits Pas',sect:'Petite enfance',offre:'Dirigeant',h:16,p:1,due:0},
+ {co:'Maison Vidal',sect:'Commerce',offre:'Dirigeant',h:14,p:4,due:5,prop:'Formateur C',why:'',valid:true},
+ {co:'Clinique Aubert',sect:'Santé',offre:'Dirigeant',h:14,p:3,due:0,prop:'Formateur A',why:'Ancien dirigeant dans la santé, à l\'aise en coaching individuel.'}
+];
+DATA.forEach(function(d,i){d.done=[];d.sales=['Commercial A','Commercial B','Commercial C'][i%3]});
+var page='onb',scope='ops',view='list',bucketFilter=null,openIdx=null;
+var DAYS=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+function dateLbl(n){var d=new Date(2026,10,9+n);return DAYS[d.getDay()]+' '+d.getDate()+' nov.'}
+function owner(d){return d.offre==='Dirigeant'?'Chargé(e) d\'onboarding':'Opérations'}
+function pending(d){return d.offre==='Dirigeant'&&d.p===3&&d.prop&&!d.valid}
+function bucket(d){return d.due<0?0:d.due===0?1:d.due<=7?2:3}
+var BUCKETS=[{k:'En retard',c:'var(--red)'},{k:"Aujourd'hui",c:'var(--orange)'},{k:'Cette semaine',c:'var(--violet)'},{k:'Plus tard',c:'var(--muted)'}];
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function offreTag(d){var c={Dirigeant:'t-violet',Formation:'t-green',Transformation:'t-pink'}[d.offre];return '<span class="tag '+c+'">'+d.offre+'</span>'}
+function base(){var q=$('q').value.toLowerCase(),o=$('offre').value,sl=$('sales').value;
+  return DATA.map(function(d,i){d.i=i;return d}).filter(function(d){
+    if(scope==='form'&&d.offre!=='Dirigeant')return false;
+    if(scope==='ops'&&d.offre==='Dirigeant'&&!pending(d))return false;
+    return (!q||(d.co+' '+d.sect).toLowerCase().indexOf(q)>-1)&&(!o||d.offre===o)&&(!sl||d.sales===sl)})}
+function dueTxt(d){return d.due<0?'<span class="due" style="color:var(--red)">'+(-d.due)+' j de retard</span>':d.due===0?'<span class="due" style="color:var(--orange)">Aujourd\'hui</span>':'<span class="due">'+dateLbl(d.due)+'</span>'}
+function render(){
+  var B=base();
+  $('hTitle').textContent='Onboarding';
+  $('hSub').textContent={ops:'Les dossiers à onboarder par les opérations, classés par urgence.',sales:'Ce que deviennent les clients signés : phase, intervenant, prochaine étape.',form:'Les formules Dirigeant, gérées par la chargée d\'onboarding. Le responsable valide seulement le formateur.',all:'Tous les dossiers en onboarding, toutes offres confondues.'}[scope];
+  $('offre').hidden=scope==='form';
+  var nd=DATA.filter(function(d){return d.offre==='Dirigeant'}).length;
+  $('banner').innerHTML=scope==='ops'?(function(){var pd=DATA.filter(pending);return (pd.length?'<div class="valid-box"><h2>Formateurs à valider <small>'+pd.length+'</small></h2><p class="note">Formules Dirigeant : la chargée d\'onboarding propose un formateur, vous validez en un clic.</p>'+pd.map(function(d){var i=DATA.indexOf(d);return '<div class="vrow"><div><b>'+esc(d.co)+'</b><small>'+esc(d.sect)+'</small></div><div><b>'+esc(d.prop)+'</b><small>'+esc(d.why||'')+'</small></div><div class="vbtns"><button type="button" class="btn-ghost" data-open="'+i+'">Voir le dossier</button><button type="button" class="btn-pink" data-valid="'+i+'">Valider</button></div></div>'}).join('')+'</div>':'')+'<div class="banner">Les '+nd+' dossiers Formule dirigeant sont gérés par la chargée d\'onboarding. <button type="button" id="goForm">Voir la vue Dirigeants</button></div>'})():'';
+  if($('goForm'))$('goForm').onclick=function(){setScope('form')};
+  [].forEach.call(document.querySelectorAll('[data-valid]'),function(b){b.onclick=function(){validate(+b.dataset.valid)}});
+  [].forEach.call(document.querySelectorAll('[data-open]'),function(b){b.onclick=function(){openD(+b.dataset.open)}});
+  var cs=BUCKETS.map(function(b,i){var n=B.filter(function(d){return bucket(d)===i}).length;return '<button type="button" class="counter'+(bucketFilter===i?' on':'')+'" data-b="'+i+'" style="--c:'+(i<2&&n?b.c:'var(--fg)')+'"><b>'+n+'</b><span>'+b.k+'</span></button>'}).join('');
+  cs+='<div class="counter" style="cursor:default"><b>'+B.length+'</b><span>Dossiers au total</span></div>';
+  $('counters').innerHTML=cs;
+  [].forEach.call(document.querySelectorAll('.counter[data-b]'),function(b){b.onclick=function(){var k=+b.dataset.b;bucketFilter=bucketFilter===k?null:k;render()}});
+  var L=B.filter(function(d){return bucketFilter===null||bucket(d)===bucketFilter});
+  $('total').textContent=L.length+' dossier'+(L.length>1?'s':'');
+  if(view==='list'){
+    $('view').innerHTML=BUCKETS.map(function(b,i){var r=L.filter(function(d){return bucket(d)===i}).sort(function(a,c){return a.due-c.due});
+      if(!r.length&&bucketFilter!==null)return '';
+      return '<div class="group"><h2 style="--c:'+b.c+'"><i></i>'+b.k+' <small>'+r.length+'</small></h2><div class="rowswrap"><div class="rows">'+(r.length?r.map(row).join(''):'<p class="empty">Rien à faire ici.</p>')+'</div></div></div>'}).join('');
+  }else{
+    $('view').innerHTML='<div class="board">'+PHASES.map(function(ph,i){var c=L.filter(function(d){return d.p===i});
+      return '<div class="lane"><div class="lane-h" style="--c:'+ph.c+'"><i></i>'+ph.k+'<span class="n">'+c.length+'</span></div>'+(c.length?c.map(card).join(''):'<p class="empty">Aucun dossier</p>')+'</div>'}).join('')+'</div>';
+  }
+  [].forEach.call(document.querySelectorAll('[data-i]'),function(el){el.onclick=function(){openD(+el.dataset.i)}});
+}
+function row(d){var ph=PHASES[d.p];return '<button type="button" class="row" data-i="'+d.i+'"><span><b>'+esc(d.co)+'</b><small>'+esc(d.sect)+' · '+d.sales+'</small></span><span>'+offreTag(d)+'</span><span class="dot" style="--c:'+ph.c+'">'+ph.k+'</span><span class="next">'+ph.next+(d.alert?'<small style="color:var(--rose)">⚠ '+esc(d.alert)+'</small>':'')+'</span>'+dueTxt(d)+'<span class="owner">'+(d.offre==='Dirigeant'?(pending(d)?'<span class="tag t-pink">À valider</span>':'<span class="deleg">Chargé(e) d\'onboarding</span>'):'Opérations')+'</span></button>'}
+function card(d){return '<button type="button" class="card" data-i="'+d.i+'"><span class="co">'+esc(d.co)+'</span><span class="sub">'+esc(d.sect)+'</span><span>'+offreTag(d)+'</span><span class="sub">'+PHASES[d.p].next+'</span>'+dueTxt(d)+'</button>'}
+function openD(i){openIdx=i;var d=DATA[i],ph=PHASES[d.p];
+  $('dTitle').textContent=d.co;$('dSub').textContent=d.sect+' · '+d.offre+' · '+d.h+' h';
+  var items=ph.todo.concat((ph.extra&&ph.extra[d.offre])||[]);
+  var todo=items.map(function(t,k){return '<label><input type="checkbox" id="td'+i+'_'+d.p+'_'+k+'"'+(d.done.indexOf(k)>-1?' checked':'')+' data-k="'+k+'"> '+t+'</label>'}).join('');
+  var steps=PHASES.map(function(p,k){return '<li class="'+(k<d.p?'done':k===d.p?'cur':'')+'"><span class="mk">'+(k<d.p?'✓':k+1)+'</span><div><div class="t">'+p.k+'</div><div class="d">'+p.d+'</div></div></li>'}).join('');
+  $('dBody').innerHTML='<dl class="facts"><div><dt>Phase</dt><dd><span class="dot" style="--c:'+ph.c+'">'+ph.k+'</span></dd></div><div><dt>Échéance</dt><dd>'+dueTxt(d)+'</dd></div><div><dt>Prochaine action</dt><dd>'+ph.next+'</dd></div><div><dt>Suivi par</dt><dd>'+owner(d)+'</dd></div><div><dt>Commercial</dt><dd>'+d.sales+'</dd></div><div><dt>Intervenant</dt><dd>'+(d.p>=4?'Confirmé':'À définir')+'</dd></div></dl>'+(d.p<=1?'<div class="banner">Visible par le commercial : il voit si sa fiche de passation est complète et si le client a bien été pris en charge.</div>':'')+''+
+    (d.offre==='Dirigeant'&&d.p>=3&&d.prop?'<div class="vcard"><h3 class="lbl">Formateur proposé</h3><p><b>'+esc(d.prop)+'</b></p>'+(d.why?'<p class="note">'+esc(d.why)+'</p>':'')+(d.valid?'<span class="tag t-green">Validé par le responsable</span>':'<span class="tag t-pink">En attente de validation</span><button type="button" class="btn-pink" id="dValid">Valider ce formateur</button><p class="note">Bouton réservé au responsable des opérations.</p>')+'</div>':'')+
+    '<div><h3 class="lbl">À faire dans cette phase</h3><div class="todo" style="margin-top:8px">'+todo+'</div></div>'+
+    (ph.tpl?'<div><h3 class="lbl">Mail type</h3><div class="tpl" style="margin-top:8px">'+esc(ph.tpl)+'</div></div>':'')+
+    '<div><h3 class="lbl">Parcours</h3><ol class="steps" style="margin-top:8px">'+steps+'</ol></div>';
+  [].forEach.call($('dBody').querySelectorAll('input[data-k]'),function(cb){cb.onchange=function(){var k=+cb.dataset.k,a=d.done,j=a.indexOf(k);if(cb.checked&&j<0)a.push(k);if(!cb.checked&&j>-1)a.splice(j,1)}});
+  $('dBack').disabled=d.p===0;$('dNext').disabled=d.p===PHASES.length-1||pending(d);$('dNext').title=pending(d)?'En attente de validation du formateur':'';
+  if($('dValid'))$('dValid').onclick=function(){validate(i)};
+  $('overlay').hidden=false;$('drawer').hidden=false;$('dClose').focus()}
+function validate(i){DATA[i].valid=true;render();if(openIdx===i)openD(i)}
+function closeD(){$('overlay').hidden=true;$('drawer').hidden=true;openIdx=null}
+$('dClose').onclick=closeD;$('overlay').onclick=closeD;
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&openIdx!==null)closeD()});
+$('dNext').onclick=function(){var d=DATA[openIdx];if(d.p<PHASES.length-1){d.p++;d.due=Math.max(d.due,0)+3;d.done=[];d.alert='';render();openD(openIdx)}};
+$('dBack').onclick=function(){var d=DATA[openIdx];if(d.p>0){d.p--;d.done=[];render();openD(openIdx)}};
+$('q').oninput=render;$('offre').onchange=render;$('sales').onchange=render;
+function setScope(v){scope=v;[].forEach.call(document.querySelectorAll('#scopeSeg button'),function(x){x.classList.toggle('on',x.dataset.s===v)});bucketFilter=null;$('offre').value='';render()}
+[].forEach.call(document.querySelectorAll('#scopeSeg button'),function(b){b.onclick=function(){setScope(b.dataset.s)}});
+$('vList').onclick=function(){view='list';this.classList.add('on');$('vKanban').classList.remove('on');render()};
+$('vKanban').onclick=function(){view='kanban';this.classList.add('on');$('vList').classList.remove('on');render()};
+function setPage(p){page=p;bucketFilter=null;$('q').value='';$('offre').value='';window.scrollTo(0,0);render()}
+
+$('newBtn').onclick=function(){DATA.unshift({co:'Nouveau client',sect:'Secteur à renseigner',offre:scope==='form'?'Dirigeant':'Formation',h:14,p:0,due:1,done:[]});bucketFilter=null;render();openD(0)};
+render();
+</script>
+
+</body></html>
